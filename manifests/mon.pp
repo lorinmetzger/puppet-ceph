@@ -89,9 +89,12 @@ define ceph::mon (
       Service {
         name     => "ceph-mon-${id}",
         provider => 'init',
-        start    => "service ceph start mon.${id}",
-        stop     => "service ceph stop mon.${id}",
-        status   => "service ceph status mon.${id}",
+        start    => "systemctl start ceph-mon@${id}",
+        stop     => "systemctl stop ceph-mon@${id}",
+        status   => "systemctl status ceph-mon@${id}",
+#        start    => "service ceph start mon.${id}",
+#        stop     => "service ceph stop mon.${id}",
+#        status   => "service ceph status mon.${id}",
       }
     } else {
       fail("operatingsystem = ${::operatingsystem} is not supported")
