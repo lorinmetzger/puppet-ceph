@@ -72,7 +72,7 @@ set -ex
 if ! test -b ${data} ; then
   mkdir -p ${data}
 fi
-ceph-disk prepare ${cluster_option} ${data} ${journal}
+ceph-disk prepare --zap-disk ${cluster_option} ${data} ${journal}
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
