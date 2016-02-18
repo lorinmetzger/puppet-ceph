@@ -97,9 +97,9 @@ fi
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
-ceph-disk list | grep -E ' *${data}1? .*ceph data, active' ||
-ls -ld /var/lib/ceph/osd/${cluster_name}-* | grep ' ${data}\$'
-",
+ceph-disk list | grep -E ' *${data}1? .*ceph data, active'", # ||
+#ls -ld /var/lib/ceph/osd/${cluster_name}-* | grep ' ${data}\$'
+#",
         logoutput => true,
       }
 
