@@ -91,9 +91,9 @@ if ! test -b ${data} ; then
   mkdir -p ${data}
 fi
 # activate happens via udev when using the entire device
-if ! test -b ${data} || ! test -b ${data}1 ; then
+#if ! test -b ${data} || ! test -b ${data}1 ; then
   ceph-disk activate ${data} || true
-fi
+#fi
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
