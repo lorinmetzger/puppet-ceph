@@ -57,6 +57,11 @@ define ceph::osd (
       $cluster_name = 'ceph'
     }
 
+    if $journal {
+       $journal_drive = $journal
+    } else {
+       $journal_drive = "${data}1"
+    }
     if $ensure == present {
 
       $ceph_prepare = "ceph-osd-prepare-${name}"
@@ -92,7 +97,7 @@ if ! test -b ${data} ; then
 fi
 # activate happens via udev when using the entire device
 #if ! test -b ${data} || ! test -b ${data}1 ; then
-  ceph-disk activate ${data} || true
+  ceph-disk activate ${journal_drive} || true
 #fi
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
