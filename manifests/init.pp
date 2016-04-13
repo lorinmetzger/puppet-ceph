@@ -127,7 +127,20 @@ class ceph (
   package { $::ceph::params::packages :
     ensure => $ensure,
     tag    => 'ceph'
+  } ->
+
+  file { "/var/lib/ceph":
+    ensure => directory,
+    owner => "ceph",
+    group => "ceph",
+  } ->
+
+  file { "/usr/sbin/ceph-disk":
+    owner => "root",
+    group => "root",
+    source => "puppet:///modules/ceph/ceph-disk"
   }
+
 
   if $ensure !~ /(absent|purged)/ {
     # Make sure ceph is installed before managing the configuration

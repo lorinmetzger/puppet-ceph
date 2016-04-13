@@ -186,6 +186,12 @@ test -d  \$mon_data
         timeout   => $exec_timeout,
       }
       ->
+      file { "/var/lib/ceph/mon":
+        ensure => directory,
+        recurse => true,
+        owner => "ceph",
+        group => "ceph",
+      } ->
       service { $mon_service:
         ensure => running,
       }
