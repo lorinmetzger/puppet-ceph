@@ -71,13 +71,6 @@ define ceph::osd (
       Ceph::Mon<||> -> Exec[$ceph_prepare]
       Ceph::Key<||> -> Exec[$ceph_prepare]
 
-      file { "/var/lib/ceph/osd":
-        ensure => directory,
-        owner => "ceph",
-        group => "ceph",
-      } ->
-
-      # ceph-disk: prepare should be idempotent http://tracker.ceph.com/issues/7475
       exec { $ceph_prepare:
         command   => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex

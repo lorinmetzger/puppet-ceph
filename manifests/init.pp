@@ -134,7 +134,14 @@ class ceph (
     owner => "ceph",
     group => "ceph",
   } ->
+      
+  file { "/var/lib/ceph/osd":
+    ensure => directory,
+    owner => "ceph",
+    group => "ceph",
+  } ->
 
+  # ceph-disk: prepare should be idempotent http://tracker.ceph.com/issues/7475
   file { "/usr/sbin/ceph-disk":
     owner => "root",
     group => "root",
