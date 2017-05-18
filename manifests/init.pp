@@ -121,6 +121,7 @@ class ceph (
   $cluster_network            = undef,
   $public_network             = undef,
   $public_addr                = undef,
+  $multipath_udev             = false,
 ) {
   include ::ceph::params
 
@@ -139,7 +140,20 @@ class ceph (
     ensure => directory,
     owner => "ceph",
     group => "ceph",
-  } 
+  }
+
+  if $multipath_udev
+  {
+    file { "/lib/udev/rules.d/60-ceph-by-parttypeuuid.rules":
+      content => template("ceph/60-ceph-by-parttypeuuid.rules.erb"),
+      require => Package["${::ceph::params::packages}"]
+    }
+    file { "/lib/udev/rules.d/95-ceph-osd.rules":
+      content => template("ceph/95-ceph-osd.rules.erb"),
+      require => Package["${::ceph::params::packages}"]
+    }
+  }
+ 
 
   # ceph-disk: prepare should be idempotent http://tracker.ceph.com/issues/7475
   #file { "/usr/sbin/ceph-disk":

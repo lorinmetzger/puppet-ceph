@@ -74,14 +74,15 @@ define ceph::osd (
       exec { $ceph_prepare:
         command   => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
-if ! test -b ${data} ; then
-  mkdir -p ${data}
-fi
+#if ! test -b ${data} ; then
+#  mkdir -p ${data}
+#fi
 ceph-disk prepare --zap-disk ${cluster_option} ${data} ${journal}
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
 ceph-disk list | grep -E ' *${data}1? .*ceph data, (prepared|active)' ||
+ceph-disk list | grep $(readlink -f ${data}p1) | grep 'data' ||
 ls -l /var/lib/ceph/osd/${cluster_name}-* | grep ' ${data}\$'
 ",
         logoutput => true,
@@ -92,9 +93,9 @@ ls -l /var/lib/ceph/osd/${cluster_name}-* | grep ' ${data}\$'
       exec { $ceph_activate:
         command   => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
-if ! test -b ${data} ; then
-  mkdir -p ${data}
-fi
+#if ! test -b ${data} ; then
+#  mkdir -p ${data}
+#fi
 # activate happens via udev when using the entire device
 #if ! test -b ${data} || ! test -b ${data}1 ; then
   ceph-disk activate ${journal_drive} || true
@@ -102,9 +103,10 @@ fi
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
-ceph-disk list | grep -E ' *${data}1? .*ceph data, active'", # ||
+ceph-disk list | grep -E ' *${data}1? .*ceph data, active' ||
+ceph-disk list | grep $(readlink -f ${data}p1) | grep 'data, xfs, mounted'
 #ls -ld /var/lib/ceph/osd/${cluster_name}-* | grep ' ${data}\$'
-#",
+",
         logoutput => true,
       }
 
