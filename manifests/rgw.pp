@@ -133,7 +133,7 @@ define ceph::rgw (
     fail("operatingsystem = ${::operatingsystem} is not supported")
   }
 
-  service { "radosgw-${name}":
+  service { "ceph-radosgw@${name}":
     ensure => running,
   }
 
