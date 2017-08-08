@@ -137,11 +137,11 @@ define ceph::rgw (
     ensure => running,
   }
 
-  Ceph_config<||> -> Service["radosgw-${name}"]
+  Ceph_config<||> -> Service["ceph-radosgw@${name}"]
   Package<| tag == 'ceph' |> -> File['/var/lib/ceph/radosgw']
   File['/var/lib/ceph/radosgw']
   -> File[$rgw_data]
-  -> Service["radosgw-${name}"]
-  File[$log_file] -> Service["radosgw-${name}"]
-  Ceph::Pool<||> -> Service["radosgw-${name}"]
+  -> Service["ceph-radosgw@${name}"]
+  File[$log_file] -> Service["ceph-radosgw@${name}"]
+  Ceph::Pool<||> -> Service["ceph-radosgw@${name}"]
 }
