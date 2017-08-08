@@ -124,9 +124,9 @@ define ceph::rgw (
     $init = 'sysvinit'
     Service {
       name     => "radosgw-${name}",
-      start    => "service ceph-radosgw start id=${name}",
-      stop     => "service ceph-radosgw stop id=${name}",
-      status   => "service ceph-radosgw status id=${name}",
+      start    => "systemctl start ceph-radosgw@${name}",
+      stop     => "systemctl stop ceph-radosgw@${name}",
+      status   => "systemctl status ceph-radosgw@${name}",
     }
   }
   else {
