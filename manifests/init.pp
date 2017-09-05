@@ -142,17 +142,17 @@ class ceph (
     group => "ceph",
   }
 
-  if $multipath_udev
-  {
-    file { "/lib/udev/rules.d/60-ceph-by-parttypeuuid.rules":
-      content => template("ceph/60-ceph-by-parttypeuuid.rules.erb"),
-      require => Package["${::ceph::params::packages}"]
-    }
-    file { "/lib/udev/rules.d/95-ceph-osd.rules":
-      content => template("ceph/95-ceph-osd.rules.erb"),
-      require => Package["${::ceph::params::packages}"]
-    }
-  }
+#  if $multipath_udev
+#  {
+#    file { "/lib/udev/rules.d/60-ceph-by-parttypeuuid.rules":
+#      content => template("ceph/60-ceph-by-parttypeuuid.rules.erb"),
+#      require => Package["${::ceph::params::packages}"]
+#    }
+#    file { "/lib/udev/rules.d/95-ceph-osd.rules":
+#      content => template("ceph/95-ceph-osd.rules.erb"),
+#      require => Package["${::ceph::params::packages}"]
+#    }
+#  }
  
 
   # ceph-disk: prepare should be idempotent http://tracker.ceph.com/issues/7475
